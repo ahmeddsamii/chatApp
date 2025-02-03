@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/signInFragment">
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.example.mychatapp.presentation.ui.signin.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.mychatapp.presentation.ui.signup.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.example.mychatapp.presentation.ui.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/action_chatFragment_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFromHomeFragment"
+        android:name="com.example.mychatapp.presentation.ui.ChatFromHomeFragment"
+        android:label="fragment_chat_from_home"
+        tools:layout="@layout/fragment_chat_from_home" >
+        <action
+            android:id="@+id/action_chatFromHomeFragment_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentHome"
+        android:name="com.example.mychatapp.presentation.ui.home.FragmentHome"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_fragmentHome_to_chatFragment"
+            app:destination="@id/chatFragment" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentSettings"
+            app:destination="@id/fragmentSettings" />
+        <action
+            android:id="@+id/action_fragmentHome_to_chatFromHomeFragment"
+            app:destination="@id/chatFromHomeFragment" />
+        <action
+            android:id="@+id/action_fragmentHome_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSettings"
+        android:name="com.example.mychatapp.presentation.ui.FragmentSettings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.mychatapp.presentation.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+</navigation>
