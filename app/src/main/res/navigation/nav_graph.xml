@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_chatFromHomeFragment_to_fragmentHome"
             app:destination="@id/fragmentHome" />
+        <argument
+            android:name="user"
+            app:argType="com.example.mychatapp.domain.entity.User" />
     </fragment>
     <fragment
         android:id="@+id/fragmentHome"
