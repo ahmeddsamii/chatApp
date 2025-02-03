@@ -71,7 +71,7 @@ class FragmentHome : Fragment(), OnUserClickListener {
     }
 
     override fun onUserSelect(position: Int, user: User) {
-        val action = FragmentHomeDirections.actionFragmentHomeToChatFromHomeFragment(user)
+        val action = FragmentHomeDirections.actionFragmentHomeToChatFragment(user)
         Navigation.findNavController(requireView()).navigate(action)
     }
 
