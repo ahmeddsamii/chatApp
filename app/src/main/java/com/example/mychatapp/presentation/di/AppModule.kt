@@ -5,6 +5,7 @@ import com.example.mychatapp.data.repo_impl.UserRepoImpl
 import com.example.mychatapp.domain.repo.IAuthRepo
 import com.example.mychatapp.domain.repo.IUserRepo
 import com.example.mychatapp.domain.usecase.GetAllUsersUseCase
+import com.example.mychatapp.domain.usecase.GetLoggedUserData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -47,5 +48,11 @@ object AppModule {
     @Singleton
     fun providesGetAllUsersUseCase(userRepo: IUserRepo):GetAllUsersUseCase{
         return GetAllUsersUseCase(userRepo)
+    }
+
+    @Provides
+    @Singleton
+    fun providesGetLoggedUserData(userRepo: IUserRepo):GetLoggedUserData{
+        return GetLoggedUserData(userRepo)
     }
 }
