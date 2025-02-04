@@ -82,7 +82,23 @@ dependencies {
     //Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+
+// Optional -- Mockk framework
+    testImplementation ("io.mockk:mockk:1.13.5")
+
+    // Mockito Core
+    testImplementation("org.mockito:mockito-core:5.10.0")
+
+    // Mockito Kotlin (for whenever and other Kotlin-friendly APIs)
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+
+    testImplementation "org.mockito:mockito-core:5.8.0"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:5.2.1"
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("app.cash.turbine:turbine:1.2.0")
 }
+
 
 // Allow references to generated code
 kapt {
