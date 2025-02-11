@@ -62,6 +62,12 @@ class ChatFragment : Fragment() {
             friendName = user.username!!,
             friendImage = user.imageUrl!!,
         )
+
+        clearTheTextField()
+    }
+
+    private fun clearTheTextField(){
+        binding.editTextMessage.text.clear()
     }
 
 }
