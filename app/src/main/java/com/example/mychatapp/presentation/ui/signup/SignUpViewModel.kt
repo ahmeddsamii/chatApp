@@ -3,12 +3,12 @@ package com.example.mychatapp.presentation.ui.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mychatapp.domain.usecase.SignUpUseCase
+import com.example.mychatapp.presentation.di.IoDispatcher
 import com.example.mychatapp.utils.UIState
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +18,8 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
     private val firestore: FirebaseFirestore,
-    private val auth:FirebaseAuth
+    private val auth:FirebaseAuth,
+    @IoDispatcher private val dispatcher: CoroutineDispatcher
 ):ViewModel() {
     private val _signUpState = MutableStateFlow<UIState>(UIState.OnIdle)
     val signUpState = _signUpState.asStateFlow()
@@ -31,27 +32,26 @@ class SignUpViewModel @Inject constructor(
     fun signUp(email: String, password: String, username: String) {
         if (checkEmailAndPasswordAndUsername(email, password, username)) {
             _signUpState.value = UIState.OnFailure("Email, Password and Username cannot be empty!")
-            return
-        }
+        }else{
+            _signUpState.value = UIState.OnLoading
 
-        _signUpState.value = UIState.OnLoading
-
-        viewModelScope.launch(Dispatchers.IO) {
-            // First check if username exists
-            firestore.collection("Users")
-                .whereEqualTo("userEmail", email)
-                .get()
-                .addOnSuccessListener { documents ->
-                    if (documents.isEmpty) {
-                        // Username is not taken, proceed with email check and registration
-                        createNewUser(email, password, username)
-                    } else {
-                        _signUpState.value = UIState.OnFailure("Email already exists!")
+            viewModelScope.launch(dispatcher) {
+                // First check if username exists
+                firestore.collection("Users")
+                    .whereEqualTo("userEmail", email)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        if (documents.isEmpty) {
+                            // Username is not taken, proceed with email check and registration
+                            createNewUser(email, password, username)
+                        } else {
+                            _signUpState.value = UIState.OnFailure("Email already exists!")
+                        }
                     }
-                }
-                .addOnFailureListener {
-                    _signUpState.value = UIState.OnFailure("Error checking existing user: ${it.message}")
-                }
+                    .addOnFailureListener {
+                        _signUpState.value = UIState.OnFailure("Error checking existing user: ${it.message}")
+                    }
+            }
         }
     }
 
