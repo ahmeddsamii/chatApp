@@ -42,6 +42,42 @@ class SignInViewModelTest{
         Dispatchers.resetMain()
     }
 
+    @Test
+    fun `when email is not empty and password is empty, should return failure state`()= runTest {
+
+        // Given
+        val email = "test@gmail.com"
+        val password = ""
+
+        // When
+        signInViewModel.signIn(email, password)
+        dispatcher.testDispatcher.scheduler.advanceUntilIdle()
+
+
+        // Then
+        signInViewModel.signInState.test {
+            assertTrue(awaitItem() is UIState.OnFailure)
+        }
+    }
+
+    @Test
+    fun `when email empty and password is not empty, should return failure state`()= runTest {
+
+        // Given
+        val email = ""
+        val password = "123456"
+
+        // When
+        signInViewModel.signIn(email, password)
+        dispatcher.testDispatcher.scheduler.advanceUntilIdle()
+
+
+        // Then
+        signInViewModel.signInState.test {
+            assertTrue(awaitItem() is UIState.OnFailure)
+        }
+    }
+
 
     @Test
     fun `when email and password are empty, should return failure state`()= runTest {
@@ -52,6 +88,7 @@ class SignInViewModelTest{
 
         // When
         signInViewModel.signIn(email, password)
+
 
         // Then
         signInViewModel.signInState.test {
