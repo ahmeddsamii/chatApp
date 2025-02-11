@@ -23,7 +23,7 @@ class SignInViewModel @Inject constructor(
     val signInState = _signInState.asStateFlow()
 
     private fun checkEmailAndPasswordAndUsername(email: String, password: String): Boolean {
-        return email.isNotEmpty() || password.isNotEmpty()
+        return email.isNotEmpty() && password.isNotEmpty()
     }
 
 
