@@ -1,11 +1,14 @@
 package com.example.mychatapp.presentation.di
 
 import com.example.mychatapp.data.repo_impl.AuthRepoImpl
+import com.example.mychatapp.data.repo_impl.MessageRepoImpl
 import com.example.mychatapp.data.repo_impl.UserRepoImpl
 import com.example.mychatapp.domain.repo.IAuthRepo
+import com.example.mychatapp.domain.repo.IMessageRepo
 import com.example.mychatapp.domain.repo.IUserRepo
 import com.example.mychatapp.domain.usecase.GetAllUsersUseCase
 import com.example.mychatapp.domain.usecase.GetLoggedUserData
+import com.example.mychatapp.domain.usecase.GetMessages
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -66,5 +69,17 @@ object AppModule {
     @IoDispatcher
     @Provides
     fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @Provides
+    @Singleton
+    fun providesMessageRepo(firestore: FirebaseFirestore): IMessageRepo{
+        return MessageRepoImpl(firestore)
+    }
+
+    @Provides
+    @Singleton
+    fun providesGetMessageUseCase(messageRepo:IMessageRepo):GetMessages{
+        return GetMessages(messageRepo)
+    }
 
 }
